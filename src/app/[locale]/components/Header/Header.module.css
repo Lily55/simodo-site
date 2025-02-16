@@ -1,0 +1,15 @@
+.mainContainer {
+  background-color: #05060c;
+  display: flex;
+  max-width: 100vw;
+  height: 5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5rem;
+}
+
+.menuContainer {
+  display: flex;
+  font-size: 1.375rem;
+  column-gap: 1.25rem;
+}
