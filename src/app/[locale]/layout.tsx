@@ -31,7 +31,7 @@ export default async function AllLayout({
         className={SimodoFont.className}
       >
         <NextIntlClientProvider messages={messages}>
-          <Header />
+          <Header locale={locale} />
           {children}
         </NextIntlClientProvider>
       </body>
