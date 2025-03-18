@@ -4,7 +4,7 @@ import React from "react";
 export const DesktopHomepage = () => {
   return (
     <div>
-      <Image src={"/background-image-2.jpeg"} alt="" fill />
+      <Image src={"/darkened-background.jpeg"} alt="" fill />
     </div>
   );
 };
