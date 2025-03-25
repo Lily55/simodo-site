@@ -1,0 +1,27 @@
+{
+  "home": {
+    "title": "Home Page",
+    "description": "Welcome to the home page",
+    "about": "About",
+    "examples": "Examples",
+    "distributions": "Distributions",
+    "forum": "Forum"
+  },
+  "examples": {
+    "title": "Mathematical Model Examples",
+    "description": "Select one of the available mathematical models for visualization and tracking of calculations. You can observe the calculation process in real time."
+  },
+  "models": {
+    "select_model": "Select Mathematical Model",
+    "choose_model": "Choose a model",
+    "start_model": "Start Model",
+    "stop_model": "Stop Model",
+    "calculation_logs": "Calculation Logs",
+    "no_logs": "No calculation data"
+  },
+  "navigation": {
+    "home": "Home",
+    "examples": "Examples",
+    "about": "About"
+  }
+} 

@@ -9,11 +9,13 @@ const SimodoFont = localFont({ src: "../fonts/ShareTechMonoRegular.ttf" });
 
 export default async function AllLayout({
   children,
-  params: { locale },
+  params,
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  const param = await params;
+  const locale = param.locale;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!routing.locales.includes(locale as any)) {
     notFound();
