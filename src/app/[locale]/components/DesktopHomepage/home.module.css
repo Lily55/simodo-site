@@ -1,0 +1,55 @@
+.backGroundImage {
+  z-index: -500;
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.infoblock {
+  position: absolute;
+  z-index: 1;
+  margin: 0 10vw;
+  background: rgba(30, 30, 27, 0.68);
+  border-radius: 20px;
+  padding: 3vh 5vw;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+  border: 1px solid white;
+}
+
+.infoblock div {
+  color: white;
+}
+
+.paragraphOne {
+  line-height: 40px;
+  text-align: left;
+  width: 40vw;
+}
+
+.paragraphTwo {
+  line-height: 40px;
+  text-align: right;
+  width: 40vw;
+  align-self: end;
+}
+
+.longName {
+  color: white;
+  font-size: 25px;
+  display: inline;
+}
+
+.paragraphThree {
+  line-height: 40px;
+  text-align: left;
+}
+
+.commonParagraph {
+  display: flex;
+  gap: 3vh;
+}

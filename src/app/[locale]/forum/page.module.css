@@ -57,7 +57,6 @@
 .inputanswer textarea {
   width: 100%;
   resize: none;
-  padding: 5px 8px;
 }
 .showanswer {
   border: 1px solid dodgerblue;

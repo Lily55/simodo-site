@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/pg-adapter": "^1.8.0",
     "axios": "^1.8.4",
     "next": "^15.2.4",
-    "@auth/pg-adapter": "^1.8.0",
-    "next-auth": "^4.24.11",
+    "next-auth": "^4.24.7",
     "next-intl": "^3.26.3",
     "pg": "^8.14.0",
     "react": "^19.0.0",

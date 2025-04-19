@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import style from "../../forum/page.module.css";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const url = "http://localhost:1337/api/simodo-forums";
 
@@ -13,7 +14,7 @@ const Uploadforum = ({ locale }: { locale: string }) => {
     axios.post(url, {
       data: {
         Title: name,
-        Questions: description,
+        Description: description,
       },
     });
   };
@@ -45,6 +46,7 @@ const Uploadforum = ({ locale }: { locale: string }) => {
             onClick={(e) => {
               e.preventDefault();
               sendData();
+              redirect(`/${locale}/forum`);
             }}
           >
             Submit Question

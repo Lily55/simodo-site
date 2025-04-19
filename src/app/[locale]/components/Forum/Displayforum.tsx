@@ -1,19 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import style from "../../forum/page.module.css";
-import Link from "next/link";
 import { readForum } from "app/api";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { create } from "./actions";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import Post from "./Post";
+import Link from "next/link";
 
-type Article = {
-  Answername: string;
-  Answers: string[];
-  Questions: string;
-  Title: string;
-  Username: string;
+export type postAnswer = {
+  answerAuthor?: string;
+  answerText: string;
+};
+
+export type PostType = {
   id: number;
+  Title: string;
+  Description: string;
+  Username: string;
+  Answers: postAnswer[];
 };
 
 const Displayforum = ({
@@ -22,9 +26,8 @@ const Displayforum = ({
   cookies?: ReadonlyRequestCookies;
   locale: string;
 }) => {
-  //   const [question, setQuestions] = useState({});
+  const [data, setData] = useState<PostType[]>([]);
 
-  const [data, setData] = useState<Article[]>([]);
   useEffect(() => {
     const getResponse = async () => {
       try {
@@ -35,57 +38,28 @@ const Displayforum = ({
         console.log(e);
       }
     };
-    create({ name: "auth-token", value: "fhjksjfklsjfjlksdklfkkfk" });
 
     getResponse();
   }, []);
 
-  const handleRedirect = () => {
-    redirect(`/${locale}/login`);
-  };
+  // const handleRedirect = () => {
+  //   redirect(`/${locale}/login`);
+  // };
 
-  const [show, setShow] = useState(false);
   return (
     <div>
       <div className={style.topcont}>
-        <h1 className={style.heading}>Display forum</h1>
+        <h1 className={style.heading}>Форум</h1>
         <div>
-          {/* <Link href={`/${locale}/upload`}> */}
-          <button onClick={handleRedirect}>Ask a question</button>
-          {/* </Link> */}
+          <Link href={`/${locale}/upload`}>
+            <button>Задать вопрос</button>
+          </Link>
           <button>Login</button>
         </div>
       </div>
-      <h2 className={style.subheading}>Questions</h2>
+      <h2 className={style.subheading}>Вопросы</h2>
       {data?.map((post, i) => (
-        <div key={i}>
-          <div className={style.userinfo}>
-            <p>Posted By: {post.Username}</p>
-          </div>
-          <div className={style.questioncont}>
-            <p className={style.question}>{post.Questions}</p>
-          </div>
-          <div className={style.answercont}>
-            <h2 className={style.subheading}>Answers</h2>
-            <div className={style.inputanswer}>
-              <form>
-                <textarea placeholder="Enter your answer" rows={5} />
-                <button>Post</button>
-              </form>
-            </div>
-            <button className={style.showanswer} onClick={() => setShow(!show)}>
-              {show ? "Hide Answers" : "Show Answers"}
-            </button>
-            {show ? (
-              <div>
-                <div className={style.eachanswer} key={i}>
-                  <p className={style.username}>{post.Answername}</p>
-                  <p className={style.answertext}>{post.Answers}</p>
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </div>
+        <Post {...post} key={i} />
       ))}
     </div>
   );
