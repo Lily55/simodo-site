@@ -27,7 +27,7 @@ const Post = (props: PostType) => {
   // };
 
   return (
-    <div>
+    <div style={{ borderBottom: "1px solid grey", paddingBottom: "8px" }}>
       <div className={style.userinfo}>
         <p>Автор: {props.Username}</p>
       </div>

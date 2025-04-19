@@ -13,7 +13,9 @@ export const Header = async ({ locale }: { locale: string }) => {
       <div className={styles.menuContainer}>
         <MenuItem href={`/${locale}/home`} title={t("home.about")} />
         <MenuItem href={`/${locale}/examples`} title={t("home.examples")} />
-        <MenuItem href={`/simodo.ru/`} title={t("home.distributions")} />
+        <a href="http://simodo.ru" style={{ textDecoration: "none" }}>
+          {t("home.distributions")}
+        </a>
         <MenuItem href={`/${locale}/forum`} title={t("home.forum")} />
       </div>
     </div>
