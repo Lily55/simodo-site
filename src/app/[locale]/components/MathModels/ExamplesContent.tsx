@@ -2,24 +2,24 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { ModelSelector } from "./MathModels/ModelSelector";
+import { ModelSelector } from "./ModelSelector";
 
 export function ExamplesContent() {
-  const t = useTranslations('examples');
-  
+  const t = useTranslations("examples");
+
   return (
     <>
-      <h1>{t('title')}</h1>
-      <p>{t('description')}</p>
-      
+      <h1>{t("title")}</h1>
+      <p>{t("description")}</p>
+
       <ModelSelector />
-      
+
       <style jsx>{`
         h1 {
           margin-bottom: 20px;
           color: #333;
         }
-        
+
         p {
           margin-bottom: 30px;
           font-size: 16px;
@@ -29,4 +29,4 @@ export function ExamplesContent() {
       `}</style>
     </>
   );
-} 
+}

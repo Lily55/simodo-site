@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import style from "../../forum/page.module.css";
 import { postAnswer, type PostType } from "./Displayforum";
 import { useSession } from "next-auth/react";
-import { redirect, unauthorized, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 // import axios from "axios";
 
 const Post = (props: PostType) => {
   const [show, setShow] = useState(false);
-  const router = useRouter();
 
   const session = useSession();
 
@@ -38,7 +37,10 @@ const Post = (props: PostType) => {
   // };
 
   return (
-    <div style={{ borderBottom: "1px solid grey", paddingBottom: "8px" }}>
+    <div
+      style={{ borderBottom: "1px solid grey", paddingBottom: "8px" }}
+      data-testid={"POST_TEST_ID"}
+    >
       <div className={style.userinfo}>
         <p>Автор: {props.Username}</p>
       </div>
@@ -46,7 +48,9 @@ const Post = (props: PostType) => {
         <p className={style.question}>{props.Description}</p>
       </div>
       <div className={style.answercont}>
-        <h2 className={style.subheading}>Ответы {a?.length}</h2>
+        <h2 className={style.subheading} data-testid={"ANSWERS_COUNT_TEST_ID"}>
+          Ответы {a?.length}
+        </h2>
         <div className={style.inputanswer}>
           <div>
             <textarea
@@ -58,15 +62,25 @@ const Post = (props: PostType) => {
                   answerAuthor: session.data?.user?.name || "",
                 })
               }
+              data-testid={"TEXTAREA_TEST_ID"}
             />
-            <button onClick={() => addAnswer()}>Ответить</button>
+            <button
+              onClick={() => addAnswer()}
+              data-testid={"ADD_ANSWER_BUTTON_TEST_ID"}
+            >
+              Ответить
+            </button>
           </div>
         </div>
-        <button className={style.showanswer} onClick={() => setShow(!show)}>
+        <button
+          className={style.showanswer}
+          onClick={() => setShow(!show)}
+          data-testid={"SHOW_ANSWERS_BUTTON_TEST_ID"}
+        >
           {show ? "Hide Answers" : "Show Answers"}
         </button>
         {show ? (
-          <div>
+          <div data-testid={"ANSWER_TEST_ID"}>
             {a?.map((answer, i) => (
               <div className={style.eachanswer} key={i}>
                 <p className={style.username}>{answer.answerAuthor}</p>
