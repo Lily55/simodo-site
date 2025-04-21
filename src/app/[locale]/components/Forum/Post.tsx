@@ -2,22 +2,33 @@
 import React, { useState } from "react";
 import style from "../../forum/page.module.css";
 import { postAnswer, type PostType } from "./Displayforum";
+import { useSession } from "next-auth/react";
+import { redirect, unauthorized, useRouter } from "next/navigation";
 // import axios from "axios";
 
 const Post = (props: PostType) => {
   const [show, setShow] = useState(false);
+  const router = useRouter();
+
+  const session = useSession();
 
   const [answer, setAnswer] = useState<postAnswer>({
     answerText: "",
-    answerAuthor: "Jorje",
+    answerAuthor: session.data?.user?.name || "",
   });
   const [a, formerArray] = useState<postAnswer[]>(props.Answers);
 
   const addAnswer = () => {
-    const arr = a ?? [];
-    arr.push(answer);
-    formerArray(arr);
-    // submitAnswer();
+    console.log(session);
+    if (session.status === "unauthenticated") redirect(`/ru/login`);
+    if (!answer.answerText.length) {
+      alert("Введите текст");
+    } else {
+      const arr = a ?? [];
+      arr.push(answer);
+      formerArray(arr);
+    }
+    // submitAnswer();}
   };
 
   // const submitAnswer = () => {
@@ -42,7 +53,10 @@ const Post = (props: PostType) => {
               placeholder="Введите свой ответ"
               rows={5}
               onChange={(e) =>
-                setAnswer({ answerText: e.target.value, answerAuthor: "Jorje" })
+                setAnswer({
+                  answerText: e.target.value,
+                  answerAuthor: session.data?.user?.name || "",
+                })
               }
             />
             <button onClick={() => addAnswer()}>Ответить</button>

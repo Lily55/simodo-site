@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./LoginForm.module.css";
+import { users } from "../../../../../data/users";
 // import axios from "axios";
 
-const registrationUrl = "http://localhost:29901/api/v1/auth/sign-up";
+// const registrationUrl = "http://localhost:29901/api/v1/auth/sign-up";
 // const cmsRegistr = "http://localhost:1337/api/simodo-users";
 
 const RegistrationForm = () => {
@@ -11,32 +12,46 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const sendData = async () => {
-    try {
-      const response = await fetch(registrationUrl, {
-        method: "POST",
-        body: JSON.stringify({
-          userInfo: {
-            login: login,
-            email: email,
-            password: password,
-          },
-        }),
-        headers: {
-          "content-type": "application/json",
-          credentials: "include",
-        },
-      });
+  const sendData = () => {
+    users.push({
+      id: `${users.length + 1}`,
+      email: email,
+      name: login,
+      password: password,
+      role: "user",
+    });
 
-      if (response.status === 200) {
-        alert("Вы зарегестрированы");
-      }
+    alert("Вы зарегистрированы");
 
-      console.log(response);
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(users);
   };
+
+  // const sendData = async () => {
+  //   try {
+  //     const response = await fetch(registrationUrl, {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         userInfo: {
+  //           login: login,
+  //           email: email,
+  //           password: password,
+  //         },
+  //       }),
+  //       headers: {
+  //         "content-type": "application/json",
+  //         credentials: "include",
+  //       },
+  //     });
+
+  //     if (response.status === 200) {
+  //       alert("Вы зарегестрированы");
+  //     }
+
+  //     console.log(response);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <div className={styles.formContainer}>

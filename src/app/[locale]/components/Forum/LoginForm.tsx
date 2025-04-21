@@ -1,78 +1,97 @@
 "use client";
-import React, { useState } from "react";
+import React, { type FormEventHandler, useState } from "react";
 import styles from "./LoginForm.module.css";
-import { redirect } from "next/navigation";
-
-const authUrl = "http://localhost:29901/api/v1/auth/sign-in";
-const verifyUrl = "http://localhost:29901/api/v1/auth/verify";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  const sendData = async () => {
-    try {
-      const response = await fetch(authUrl, {
-        method: "POST",
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault();
 
-        body: JSON.stringify({
-          login: login,
-          password: password,
-        }),
+    const formData = new FormData(event.currentTarget);
 
-        headers: {
-          "content-type": "application/json",
-          credentials: "include",
-        },
-      });
+    console.log(formData);
 
-      const responseJSON = await response.json();
+    const res = await signIn("credentials", {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      redirect: false,
+    });
 
-      if (!responseJSON.code) {
-        localStorage.setItem("access", responseJSON.access);
-        localStorage.setItem("refresh", responseJSON.refresh);
-        redirect(`ru/upload`);
-      }
-    } catch (e) {
-      console.log(e);
+    if (res && !res.error) {
+      router.push("/ru/forum");
+    } else {
+      console.log(res);
     }
   };
 
-  const sendToken = async () => {
-    try {
-      const accessToken = localStorage.getItem("access");
-      const response = await fetch(`${verifyUrl}?access=${accessToken}`);
+  // const sendData = async () => {
+  //   try {
+  //     const response = await fetch(authUrl, {
+  //       method: "POST",
 
-      const responseJSON = await response.json();
+  //       body: JSON.stringify({
+  //         login: login,
+  //         password: password,
+  //       }),
 
-      console.log(responseJSON);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //       headers: {
+  //         "content-type": "application/json",
+  //         credentials: "include",
+  //       },
+  //     });
+
+  //     const responseJSON = await response.json();
+
+  //     if (!responseJSON.code) {
+  //       localStorage.setItem("access", responseJSON.access);
+  //       localStorage.setItem("refresh", responseJSON.refresh);
+  //       redirect(`ru/upload`);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  // const sendToken = async () => {
+  //   try {
+  //     const accessToken = localStorage.getItem("access");
+  //     const response = await fetch(`${verifyUrl}?access=${accessToken}`);
+
+  //     const responseJSON = await response.json();
+
+  //     console.log(responseJSON);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   return (
     <div className={styles.formContainer}>
-      <div className={styles.inputForm}>
+      <form className={styles.inputForm} onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="Enter your login"
+          type="email"
+          placeholder="Введите свою почту"
           maxLength={74}
           value={login}
+          name="email"
           onChange={(e) => setLogin(e.target.value)}
         />
         <input
-          placeholder="Enter your password"
+          placeholder="Введите свой пароль"
+          type="password"
+          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className={styles.formButton} onClick={sendData}>
+        <button className={styles.formButton} type="submit">
           Войти
         </button>
-        <button className={styles.formButton} onClick={sendToken}>
-          Войти
-        </button>
-      </div>
+      </form>
     </div>
   );
 };

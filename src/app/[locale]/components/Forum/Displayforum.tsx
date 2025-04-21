@@ -6,6 +6,8 @@ import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adap
 // import { redirect } from "next/navigation";
 import Post from "./Post";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 export type postAnswer = {
   answerAuthor?: string;
@@ -27,6 +29,10 @@ const Displayforum = ({
   locale: string;
 }) => {
   const [data, setData] = useState<PostType[]>([]);
+  const session = useSession();
+  const [login, setLogin] = useState(session.status === "unauthenticated");
+
+  const router = useRouter();
 
   useEffect(() => {
     const getResponse = async () => {
@@ -54,7 +60,20 @@ const Displayforum = ({
           <Link href={`/${locale}/upload`}>
             <button>Задать вопрос</button>
           </Link>
-          <button>Login</button>
+          {login ? (
+            <button onClick={() => router.push(`/${locale}/login`)}>
+              Войти
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                signOut({ redirect: false });
+                setLogin(!login);
+              }}
+            >
+              Выйти
+            </button>
+          )}
         </div>
       </div>
       <h2 className={style.subheading}>Вопросы</h2>

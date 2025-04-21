@@ -4,10 +4,14 @@ import axios from "axios";
 import style from "../../forum/page.module.css";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const url = "http://localhost:1337/api/simodo-forums";
 
 const Uploadforum = ({ locale }: { locale: string }) => {
+  const session = useSession();
+
+  if (session.status === "unauthenticated") redirect(`/${locale}/login`);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const sendData = () => {
@@ -22,22 +26,22 @@ const Uploadforum = ({ locale }: { locale: string }) => {
   return (
     <div className={style.uploadpage}>
       <div className={style.topcont}>
-        <h1>Ask a question</h1>
+        <h1>Задать вопрос</h1>
         <Link href={`/${locale}/forum`}>
-          <button>Forum</button>
+          <button>Форум</button>
         </Link>
       </div>
       <div className={style.formcont}>
         <form className={style.uploadform}>
           <input
             type="text"
-            placeholder="Enter your title"
+            placeholder="Введите заголовок"
             maxLength={74}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <textarea
-            placeholder="Enter your description"
+            placeholder="Введите описание вопроса"
             rows={8}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -49,7 +53,7 @@ const Uploadforum = ({ locale }: { locale: string }) => {
               redirect(`/${locale}/forum`);
             }}
           >
-            Submit Question
+            Опубликовать
           </button>
         </form>
       </div>
